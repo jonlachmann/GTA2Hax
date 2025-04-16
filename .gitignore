@@ -1,4 +1,5 @@
 ﻿.vs/
+build/
 DmaVideo/Debug/
 Debug/
 DmaVideo/Release/
@@ -8,3 +9,11 @@ Release/
 *.opendb
 ipch/
 *.plog
+*.user
+build_vc6/
+GTA2_data/
+settings.json
+imgui.ini
+build_vc6
+vscommondir.reg
+.vscode
