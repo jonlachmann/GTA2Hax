@@ -1,6 +1,6 @@
-[submodule "3rdParty/Detours"]
-	path = 3rdParty/Detours
-	url = https://github.com/paulsapps/Detours.git
 [submodule "3rdParty/imgui"]
 	path = 3rdParty/imgui
 	url = https://github.com/CriminalRETeam/imgui.git
+[submodule "3rdParty/gta2_re_compile_tools"]
+	path = 3rdParty/gta2_re_compile_tools
+	url = https://github.com/CriminalRETeam/gta2_re_compile_tools.git
