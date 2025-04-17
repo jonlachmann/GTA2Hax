@@ -7,6 +7,7 @@ EXPORTS
    gbh_AddLight
    gbh_AssignPalette
    gbh_BeginLevel
+   gbh_SetBeginSceneCB
    gbh_BeginScene
    gbh_BlitBuffer
    gbh_BlitImage

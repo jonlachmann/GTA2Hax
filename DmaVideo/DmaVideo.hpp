@@ -6,7 +6,7 @@
 #include <vector>
 #include <windows.h>
 
-struct SPtrVideoFunctions;
+struct SVideoFunctions;
 
 struct SVideo
 {
@@ -43,7 +43,7 @@ struct SVideo
     DWORD field_78;
     HINSTANCE field_7C_self_dll_handle;
     DWORD field_80_active_mode_q;
-    SPtrVideoFunctions* field_84_from_initDLL;
+    SVideoFunctions* field_84_from_initDLL;
     DWORD field_88_last_error;
     IDirectDraw7* field_8C_DirectDraw7;
     char buffer[144];
@@ -108,7 +108,7 @@ struct SVidVersion
 
 #define CC __stdcall
 
-SVideo* CC Vid_Init_SYS(s32 param1, u16 param2_flags);
+SVideo* CC Vid_Init_SYS(HINSTANCE param1, u16 param2_flags);
 s32 CC Vid_CheckMode(SVideo* pVideoDriver, s32 width, s32 height, s32 rgbBitCount);
 SDevice* CC Vid_FindDevice(SVideo* pVideoDriver, s32 deviceId);
 SDisplayMode* CC Vid_FindMode(SVideo* pVideoDriver, s32 modeId);
@@ -128,67 +128,60 @@ s32 CC Vid_FreeSurface(SVideo* pVideoDriver);
 s32 CC Vid_ClearScreen(SVideo* pVideoDriver, u8 aR, u8 aG, u8 aB, s32 aLeft, s32 aTop, s32 aRight, s32 aBottom);
 s32 CC Vid_SetGamma(SVideo* pVideoDriver, f32 a2, f32 a3, f32 a4);
 s32 CC Vid_WindowProc(SVideo* pVideoDriver, HWND hwnd, DWORD uMsg, WPARAM wParam, LPARAM lParam);
-s32 CC Vid_InitDLL(HINSTANCE hInstance, SPtrVideoFunctions* a2);
+s32 CC Vid_InitDLL(HINSTANCE hInstance, SVideoFunctions* a2);
 SVidVersion* CC Vid_GetVersion();
 
-typedef void(CC* TVid_CloseScreen)(SVideo*);
-typedef s32(CC* TVid_FreeSurface)(SVideo* pVideoDriver);
-typedef s32(CC* TVid_SetMode)(SVideo* pVideoDriver, HWND hWnd, s32 modeId);
-typedef s32(CC* TVid_GetSurface)(SVideo* pVideoDriver);
+struct SVideoFunctions;
 
-struct SPtrVideoFunctions
-{
-    void* pVid_GetVersion;
-    void* pVid_Init_SYS;
-    void* pVid_CheckMode;
-    void* pVid_FindMode;
-    void* pVid_FindFirstMode;
-    void* pVid_FindNextMode;
-    void* pVid_FindDevice;
-    void* pVid_SetDevice;
-    TVid_CloseScreen* pVid_CloseScreen;
-    TVid_SetMode* pVid_SetMode;
-    void* pVid_FlipBuffers;
-    void* pVid_ReleaseSurface;
-    void* pVid_GrabSurface;
-    void* pVid_ShutDown_SYS;
-    void* pVid_EnableWrites;
-    void* pVid_DisableWrites;
-    TVid_GetSurface* pVid_GetSurface;
-    TVid_FreeSurface* pVid_FreeSurface;
-    void* pVid_ClearScreen;
-    void* pVid_WindowProc;
-    void* pVid_InitDLL;
-    void* pVid_SetGamma;
-    const char* mErrStr; // NOT USED - just used to check struct is never reassigned
-};
+typedef SVidVersion*(__stdcall* T_Vid_GetVersion)();
+typedef SVideo*(__stdcall* T_Vid_Init_SYS)(HINSTANCE param1, u16 param2_flags);
+typedef s32(__stdcall* T_Vid_CheckMode)(SVideo* pVideoDriver, s32 width, s32 height, s32 rgbBitCount);
+typedef SDisplayMode*(__stdcall* T_Vid_FindMode)(SVideo* pVideoDriver, s32 modeId);
+typedef s32(__stdcall* T_Vid_FindFirstMode)(SVideo* pVideoDriver, s32 rgbBitCountFilter);
+typedef s32(__stdcall* T_Vid_FindNextMode)(SVideo* pVideoDriver);
+typedef SDevice*(__stdcall* T_Vid_FindDevice)(SVideo* pVideoDriver, s32 deviceId);
+typedef s32(__stdcall* T_Vid_SetDevice)(SVideo* pVideoDriver, s32 deviceId);
+typedef void(__stdcall* T_Vid_CloseScreen)(SVideo* pVideo);
+typedef s32(__stdcall* T_Vid_SetMode)(SVideo* pVideoDriver, HWND hWnd, s32 modeId);
+typedef void(__stdcall* T_Vid_FlipBuffers)(SVideo* pVideo);
+typedef void(__stdcall* T_Vid_ReleaseSurface)(SVideo* pVideoDriver);
+typedef void(__stdcall* T_Vid_GrabSurface)(SVideo* pVideoDriver);
+typedef void(__stdcall* T_Vid_ShutDown_SYS)(SVideo* pVideoDriver);
+typedef s32(__stdcall* T_Vid_EnableWrites)(SVideo* pVideoDriver);
+typedef s32(__stdcall* T_Vid_DisableWrites)(SVideo* pVideoDriver);
+typedef s32(__stdcall* T_Vid_GetSurface)(SVideo* pVideoDriver);
+typedef s32(__stdcall* T_Vid_FreeSurface)(SVideo* pVideoDriver);
+typedef s32(__stdcall* T_Vid_ClearScreen)(SVideo* pVideoDriver, u8 aR, u8 aG, u8 aB, s32 aLeft, s32 aTop, s32 aRight, s32 aBottom);
+typedef s32(__stdcall* T_Vid_WindowProc)(SVideo* pVideoDriver, HWND hwnd, u32 uMsg, WPARAM wParam, LPARAM lParam);
+typedef s32(__stdcall* T_Vid_InitDLL)(HINSTANCE hInstance, SVideoFunctions* a2);
+typedef s32(__stdcall* T_Vid_SetGamma)(SVideo* pVideoDriver, f32 a2, f32 a3, f32 a4);
+
 
 struct SVideoFunctions
 {
-    void* pVid_GetVersion;
-    void* pVid_Init_SYS;
-    void* pVid_CheckMode;
-    void* pVid_FindMode;
-    void* pVid_FindFirstMode;
-    void* pVid_FindNextMode;
-    void* pVid_FindDevice;
-    void* pVid_SetDevice;
-    void* pVid_CloseScreen;
-    TVid_SetMode pVid_SetMode;
-    void* pVid_FlipBuffers;
-    void* pVid_ReleaseSurface;
-    void* pVid_GrabSurface;
-    void* pVid_ShutDown_SYS;
-    void* pVid_EnableWrites;
-    void* pVid_DisableWrites;
-    void* pVid_GetSurface;
-    void* pVid_FreeSurface;
-    void* pVid_ClearScreen;
-    void* pVid_WindowProc;
-    void* pVid_InitDLL;
-    void* pVid_SetGamma;
+    T_Vid_GetVersion* pVid_GetVersion;
+    T_Vid_Init_SYS* pVid_Init_SYS;
+    T_Vid_CheckMode* pVid_CheckMode;
+    T_Vid_FindMode* pVid_FindMode;
+    T_Vid_FindFirstMode* pVid_FindFirstMode;
+    T_Vid_FindNextMode* pVid_FindNextMode;
+    T_Vid_FindDevice* pVid_FindDevice;
+    T_Vid_SetDevice* pVid_SetDevice;
+    T_Vid_CloseScreen* pVid_CloseScreen;
+    T_Vid_SetMode* pVid_SetMode;
+    T_Vid_FlipBuffers* pVid_FlipBuffers;
+    T_Vid_ReleaseSurface* pVid_ReleaseSurface;
+    T_Vid_GrabSurface* pVid_GrabSurface;
+    T_Vid_ShutDown_SYS* pVid_ShutDown_SYS;
+    T_Vid_EnableWrites* pVid_EnableWrites;
+    T_Vid_DisableWrites* pVid_DisableWrites;
+    T_Vid_GetSurface* pVid_GetSurface;
+    T_Vid_FreeSurface* pVid_FreeSurface;
+    T_Vid_ClearScreen* pVid_ClearScreen;
+    T_Vid_WindowProc* pVid_WindowProc;
+    T_Vid_InitDLL* pVid_InitDLL;
+    T_Vid_SetGamma* pVid_SetGamma;
 };
-
 template<class T>
 inline void GetFunc(HINSTANCE hInstance, T& result, const char* name)
 {
@@ -222,7 +215,7 @@ inline void PopulateSVideoFunctions(HINSTANCE hDmaVideoDll, T& funcs)
     GetFunc(hDmaVideoDll, funcs.pVid_SetGamma, "Vid_SetGamma");
 }
 
-#define EXPORT __declspec(dllexport)
+#define RENDERER_API __declspec(dllexport)
 
 struct _D3DPRESENT_PARAMETERS_;
 typedef struct _D3DPRESENT_PARAMETERS_ D3DPRESENT_PARAMETERS;
@@ -246,11 +239,11 @@ class Renderer
     Renderer();
     ~Renderer();
     void InitD3D(HWND hWnd, s32 ogW, s32 ogH);
-    EXPORT void BeginScene();
-    EXPORT void EndScene();
+    RENDERER_API void BeginScene();
+    RENDERER_API void EndScene();
     void Clear(u8 r, u8 g, u8 b, s32 left, s32 top, s32 right, s32 bottom);
-    EXPORT void Draw(const CUSTOMVERTEX* pVerts, u32 vertsCount, struct IDirect3DTexture9* pTexture);
-    EXPORT struct IDirect3DTexture9* SetTexture(IDirect3DTexture9* pExisting,
+    RENDERER_API void Draw(const CUSTOMVERTEX* pVerts, u32 vertsCount, struct IDirect3DTexture9* pTexture);
+    RENDERER_API struct IDirect3DTexture9* SetTexture(IDirect3DTexture9* pExisting,
                                                 u32 w,
                                                 u32 h,
                                                 const u8* pPixelData,
@@ -262,11 +255,11 @@ class Renderer
                                      u32 hOffset,
                                      const u32* pPixelData);
 
-    EXPORT void FreeTextureDelayed(IDirect3DTexture9* pTexture);
+    RENDERER_API void FreeTextureDelayed(IDirect3DTexture9* pTexture);
     void Present();
-    EXPORT void SetRenderStates(u32 flags);
-    EXPORT void TrackTexture(STexture* pTexture);
-    EXPORT void UnTrackTexture(STexture* pTexture);
+    RENDERER_API void SetRenderStates(u32 flags);
+    RENDERER_API void TrackTexture(STexture* pTexture);
+    RENDERER_API void UnTrackTexture(STexture* pTexture);
     void Resize(s32 w, s32 h);
     HWND GetHwnd() const
     {

@@ -1065,7 +1065,7 @@ HRESULT __stdcall IDirectDraw7Stub::CreateSurfaceStub(IDirectDraw7* This,
 // ===========================================
 
 static HINSTANCE gHinstance;
-static SPtrVideoFunctions* gVideoFuncs_100FFF8;
+static SVideoFunctions* gVideoFuncs_100FFF8;
 
 #define FLAG_HARDWARE_RENDERING 0x40
 
@@ -1206,17 +1206,6 @@ void Renderer::BeginScene()
 
     // Somehow only in wine this gets turned off... so just turn it back on ya mad lad
     g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-
-    ImGui::Begin("lol");
-    ImGui::Text("Hello, World!");
-    static char buf[255];
-    ImGui::InputText("meh", buf, 255);
-    if (ImGui::Button("omfg"))
-    {
-        printf("Clicked\n");
-    }
-    ImGui::End();
 }
 
 void Renderer::EndScene()
@@ -2221,7 +2210,7 @@ static ExecutableVersion GetExecutableVersion(HINSTANCE hInstance) {
 }
 
 
-s32 CC Vid_InitDLL(HINSTANCE hInstance, SPtrVideoFunctions* pVidFuncs)
+s32 CC Vid_InitDLL(HINSTANCE hInstance, SVideoFunctions* pVidFuncs)
 {
     TRACE_ENTRYEXIT;
 

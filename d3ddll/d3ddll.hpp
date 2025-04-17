@@ -4,6 +4,8 @@
 
 #define CC __stdcall
 
+typedef void (CC *TBeginSceneCB)();
+
 struct STexture
 {
     u16 field_0_id;
@@ -73,7 +75,9 @@ int* CC MakeScreenTable(int result, int a2, unsigned int a3);
 int CC gbh_AddLight(SLight* pLight);
 void CC gbh_AssignPalette(STexture* pTexture, int palId);
 void CC gbh_BeginLevel();
-void gbh_BeginScene();
+// Note: Not part of OG API, added for ImGui call back for debug rendering
+void CC gbh_SetBeginSceneCB(TBeginSceneCB pBeginSceneCB);
+void CC gbh_BeginScene();
 int CC gbh_BlitBuffer(int a1, int a2, int a3, int a4, int a5, int a6);
 int CC gbh_BlitImage(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 void CC gbh_CloseDLL();

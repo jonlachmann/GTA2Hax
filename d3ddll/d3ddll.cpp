@@ -169,11 +169,23 @@ void CC gbh_BeginLevel()
     abort();
 }
 
-void gbh_BeginScene()
+static TBeginSceneCB cbBeginScene = NULL;
+
+void CC gbh_SetBeginSceneCB(TBeginSceneCB pBeginScene)
+{
+    cbBeginScene = pBeginScene;
+}
+
+void CC gbh_BeginScene()
 {
     if (gWrapper)
     {
         gWrapper->mRenderer.BeginScene();
+    }
+
+    if (cbBeginScene)
+    {
+        cbBeginScene();
     }
 }
 
