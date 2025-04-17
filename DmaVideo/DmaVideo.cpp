@@ -2223,7 +2223,16 @@ s32 CC Vid_InitDLL(HINSTANCE hInstance, SVideoFunctions* pVidFuncs)
 
     if (version.major == 10 && version.minor == 5)
     {
-        pInput_ReleaseMouse = (T_Input_ReleaseMouse)0x5D7C70;
+        printf("Found 10.5 version executable\n");
+        const FARPROC fnIsDecompBuild = GetProcAddress(GetModuleHandle(NULL), "GetGlobalsRegistry");
+        if (!fnIsDecompBuild)
+        {
+            pInput_ReleaseMouse = (T_Input_ReleaseMouse)0x5D7C70;
+        }
+        else
+        {
+            printf("This executable is a decomp build which has the var at a diff address, do not hook\n");
+        }
     }
 
     gHinstance = hInstance;
