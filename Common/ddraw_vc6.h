@@ -30,7 +30,7 @@
 #define   DIRECTDRAW_VERSION 0x0700
 #endif /* DIRECTDRAW_VERSION */
 
-#if defined( _WIN32 )  && !defined( _NO_COM )
+#if (defined( _WIN32 ) || defined( GTA2_PORT ))  && !defined( _NO_COM ) // GTA2_PORT: the gta2_re port's COM declarations
 #define COM_NO_WINDOWS_H
 #include <objbase.h>
 #else
