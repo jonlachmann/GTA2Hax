@@ -1,7 +1,7 @@
 #pragma once
 
-#include "..\Common\Types.hpp"
-#include "..\Common\ddraw_vc6.h"
+#include "../Common/Types.hpp"
+#include "../Common/ddraw_vc6.h"
 #include <set>
 #include <vector>
 #include <windows.h>

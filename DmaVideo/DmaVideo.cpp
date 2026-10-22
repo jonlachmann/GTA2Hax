@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DmaVideo.hpp"
 #include "logger.hpp"
-#include "..\d3ddll\d3ddll.hpp"
+#include "../d3ddll/d3ddll.hpp"
 #include <DINPUT.H>
 #include <ddraw.h>
 #include <math.h>
